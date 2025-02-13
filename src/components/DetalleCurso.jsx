@@ -10,7 +10,7 @@ const DetalleCurso = ({ curso }) => {
   const [mostrarDialogoSesion, setMostrarDialogoSesion] = useState(false);
   const [yaInscrito, setYaInscrito] = useState(false);
   const [carrito, setCarrito] = useState([]);
-  const [mostrarContenido, setMostrarContenido] = useState(false); // 🔥 Nuevo estado para mostrar ContenidoCurso
+  const [mostrarContenido, setMostrarContenido] = useState(false);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("currentUserId");
@@ -21,18 +21,6 @@ const DetalleCurso = ({ curso }) => {
     setCarrito(storedCarrito);
   }, []);
 
-  useEffect(() => {
-    if (userId) {
-      const db = getDatabase();
-      const inscripcionRef = ref(db, `usuarios/${userId}/cursos_inscritos/${curso.slug}`);
-      get(inscripcionRef).then((snapshot) => {
-        if (snapshot.exists()) {
-          setYaInscrito(true);
-        }
-      });
-    }
-  }, [userId, curso.slug]);
-
   const handleInscripcion = () => {
     if (!userId) {
       setMostrarDialogoSesion(true);
@@ -42,7 +30,7 @@ const DetalleCurso = ({ curso }) => {
     if (curso.precio === "Free") {
       setMostrarDialogoCompra(true);
     } else {
-      // 🔥 Solo agregar el curso de pago al carrito, sin abrir el diálogo de compra
+      // agregar el curso de pago al carrito, sin abrir el diálogo de compra
       const nuevoCarrito = [
         ...carrito,
         {
@@ -96,7 +84,7 @@ const DetalleCurso = ({ curso }) => {
 
           {yaInscrito ? (
             <button
-              onClick={() => setMostrarContenido(true)} // 🔥 Ahora muestra ContenidoCurso
+              onClick={() => setMostrarContenido(true)}
               className="mt-4 md:mt-0 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md"
             >
               Ver contenido
@@ -126,7 +114,7 @@ const DetalleCurso = ({ curso }) => {
           <IniciarSesionDialog onClose={() => setMostrarDialogoSesion(false)} />
         )}
 
-        {/* 🔥 Ahora se renderiza `ContenidoCurso` cuando se da clic en "Ver contenido" */}
+        {/*Ahora se renderiza `ContenidoCurso` cuando se da clic en "Ver contenido" */}
         {mostrarContenido && (
           <ContenidoCurso
             userId={userId}

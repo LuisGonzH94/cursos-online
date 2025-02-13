@@ -12,7 +12,7 @@ function AuthHandler() {
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
-  // Verificar localStorage al montar el componente
+  // verifico el localstorage
   useEffect(() => {
     const storedUserId = localStorage.getItem("currentUserId") || "";
     if (storedUserId) {

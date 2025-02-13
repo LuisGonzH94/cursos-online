@@ -1,0 +1,107 @@
+[debug] [2025-02-13T09:28:43.332Z] ----------------------------------------------------------------------
+[debug] [2025-02-13T09:28:43.336Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-02-13T09:28:43.337Z] CLI Version:   13.31.0
+[debug] [2025-02-13T09:28:43.338Z] Platform:      win32
+[debug] [2025-02-13T09:28:43.338Z] Node Version:  v22.11.0
+[debug] [2025-02-13T09:28:43.338Z] Time:          Thu Feb 13 2025 10:28:43 GMT+0100 (hora estándar de Europa central)
+[debug] [2025-02-13T09:28:43.338Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-13T09:28:43.725Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-13T09:28:43.725Z] > authorizing via signed-in user (drums4gusto@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\fight\OneDrive\Documentos\GitHub\cursos-online
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-02-13T09:28:49.812Z] Using project from CLI flag: dam2team
+[debug] [2025-02-13T09:28:49.814Z] Checked if tokens are valid: true, expires at: 1739442202966
+[debug] [2025-02-13T09:28:49.814Z] Checked if tokens are valid: true, expires at: 1739442202966
+[debug] [2025-02-13T09:28:49.816Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dam2team [none]
+[debug] [2025-02-13T09:28:50.171Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dam2team 200
+[debug] [2025-02-13T09:28:50.171Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dam2team {"projectId":"dam2team","projectNumber":"1056566925602","displayName":"dam2team","name":"projects/dam2team","resources":{"hostingSite":"dam2team","realtimeDatabaseInstance":"dam2team-default-rtdb"},"state":"ACTIVE","etag":"1_a94f590a-2913-4071-a687-c3fd5d07bd7e"}
+[info] i  Using project dam2team (dam2team) 
+[info] 
+=== Hosting Setup
+[debug] [2025-02-13T09:28:50.234Z] Checked if tokens are valid: true, expires at: 1739442202966
+[debug] [2025-02-13T09:28:50.234Z] Checked if tokens are valid: true, expires at: 1739442202966
+[debug] [2025-02-13T09:28:50.234Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dam2team [none]
+[debug] [2025-02-13T09:28:50.426Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dam2team 200
+[debug] [2025-02-13T09:28:50.426Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dam2team {"projectId":"dam2team","projectNumber":"1056566925602","displayName":"dam2team","name":"projects/dam2team","resources":{"hostingSite":"dam2team","realtimeDatabaseInstance":"dam2team-default-rtdb"},"state":"ACTIVE","etag":"1_a94f590a-2913-4071-a687-c3fd5d07bd7e"}
+[debug] [2025-02-13T13:17:57.553Z] ----------------------------------------------------------------------
+[debug] [2025-02-13T13:17:57.557Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-02-13T13:17:57.557Z] CLI Version:   13.31.0
+[debug] [2025-02-13T13:17:57.558Z] Platform:      win32
+[debug] [2025-02-13T13:17:57.558Z] Node Version:  v22.11.0
+[debug] [2025-02-13T13:17:57.558Z] Time:          Thu Feb 13 2025 14:17:57 GMT+0100 (hora estándar de Europa central)
+[debug] [2025-02-13T13:17:57.558Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-13T13:17:58.095Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-13T13:17:58.096Z] > authorizing via signed-in user (drums4gusto@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\fight\OneDrive\Documentos\GitHub\cursos-online
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-02-13T13:18:04.004Z] Using project from CLI flag: dam2team
+[debug] [2025-02-13T13:18:04.006Z] Checked if tokens are valid: false, expires at: 1739442202966
+[debug] [2025-02-13T13:18:04.007Z] Checked if tokens are valid: false, expires at: 1739442202966
+[debug] [2025-02-13T13:18:04.007Z] > refreshing access token with scopes: []
+[debug] [2025-02-13T13:18:04.016Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-02-13T13:18:04.016Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-13T13:18:04.361Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-02-13T13:18:04.361Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-02-13T13:18:05.650Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dam2team [none]
+[debug] [2025-02-13T13:18:05.895Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dam2team 200
+[debug] [2025-02-13T13:18:05.895Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dam2team {"projectId":"dam2team","projectNumber":"1056566925602","displayName":"dam2team","name":"projects/dam2team","resources":{"hostingSite":"dam2team","realtimeDatabaseInstance":"dam2team-default-rtdb"},"state":"ACTIVE","etag":"1_a94f590a-2913-4071-a687-c3fd5d07bd7e"}
+[info] i  Using project dam2team (dam2team) 
+[info] 
+=== Hosting Setup
+[debug] [2025-02-13T13:18:06.045Z] Checked if tokens are valid: true, expires at: 1739456283361
+[debug] [2025-02-13T13:18:06.046Z] Checked if tokens are valid: true, expires at: 1739456283361
+[debug] [2025-02-13T13:18:06.046Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/dam2team [none]
+[debug] [2025-02-13T13:18:06.379Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/dam2team 200
+[debug] [2025-02-13T13:18:06.379Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/dam2team {"projectId":"dam2team","projectNumber":"1056566925602","displayName":"dam2team","name":"projects/dam2team","resources":{"hostingSite":"dam2team","realtimeDatabaseInstance":"dam2team-default-rtdb"},"state":"ACTIVE","etag":"1_a94f590a-2913-4071-a687-c3fd5d07bd7e"}
+[debug] [2025-02-13T13:18:20.795Z] SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at findDependency (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\utils.js:190:23)
+    at getAstroVersion (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\astro\utils.js:39:45)
+    at discover (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\astro\index.js:17:49)
+    at discover (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\frameworks\index.js:47:38)
+    at async doSetup (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\features\hosting\index.js:54:11)
+    at async init (C:\Users\fight\AppData\Roaming\npm\node_modules\firebase-tools\lib\init\index.js:41:9)
+[error] 
+[error] Error: An unexpected error has occurred.

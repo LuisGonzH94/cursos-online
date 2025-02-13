@@ -10,6 +10,7 @@ import CursosInscritosList from "../curso/CursoInscritoList";
     </h1>
 
     <!-- Hidratamos el componente y obtenemos el userId desde el cliente -->
-    <CursosInscritosList client:load />
+    <CursosInscritosList client:only="react" />
+
   </main>
 </Layout>

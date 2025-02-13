@@ -8,11 +8,10 @@ function CompraDialog({ curso, userId, onClose, onCompraExitosa }) {
     setStatus("Procesando...");
   
     setTimeout(async () => {
-      // 🔥 Simular error aleatorio (1 de cada 3 veces)
       if (Math.floor(Math.random() * 2) === 0) {
         console.error("Simulación de error en inscripción.");
         setStatus("Error al procesar la inscripción. Inténtalo de nuevo.");
-        return; // 🚨 Si hay error, no continuar con la inscripción
+        return;
       }
   
       try {
@@ -49,10 +48,6 @@ function CompraDialog({ curso, userId, onClose, onCompraExitosa }) {
       }
     }, 2000);
   };
-  
-  
-  
-
   
   return (
     <div className="fixed inset-0 bg-gray-900/70 flex items-center justify-center z-50">
