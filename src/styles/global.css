@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+.main-background {
+  background: linear-gradient(180deg, #fff5e6, #ffdab3, #ffffff);
+}
+
+h1 {
+  font-family: 'Poppins', sans-serif;
+}
+
+button {
+  transition: all 0.3s ease;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.button-gradient {
+  background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+}
+

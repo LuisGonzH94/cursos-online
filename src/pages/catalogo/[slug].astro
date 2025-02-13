@@ -1,0 +1,28 @@
+---
+import DetalleCurso from "../../components/DetalleCurso";
+import Layout from "../../layouts/Layout.astro";
+import { fetchCursos } from "../../lib/fetchCursos";
+
+export async function getStaticPaths() {
+  const cursos = await fetchCursos();
+  return cursos.map((curso) => ({
+    params: { slug: curso.slug.toString() }, // Asegúrate de que slug sea un string
+  }));
+}
+
+const { slug } = Astro.params;
+
+// Obtener los datos de todos los cursos
+const cursosData = await fetchCursos();
+
+// Buscar el curso correspondiente al slug actual
+const currentCurso = cursosData.find((curso) => curso.slug === slug);
+
+if (!currentCurso) {
+  throw new Error(`No existe ningún curso con el slug: "${slug}"`);
+}
+---
+
+<Layout>
+  <DetalleCurso curso={currentCurso} client:load />
+</Layout>

@@ -1,0 +1,15 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CursosInscritosList from "../curso/CursoInscritoList";
+---
+
+<Layout>
+  <main class="pt-32 md:pt-36 lg:pt-40 px-6">
+    <h1 class="text-4xl font-extrabold text-gray-800 text-center my-6">
+      Mis Cursos Inscritos
+    </h1>
+
+    <!-- Hidratamos el componente y obtenemos el userId desde el cliente -->
+    <CursosInscritosList client:load />
+  </main>
+</Layout>
