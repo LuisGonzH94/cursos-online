@@ -3,6 +3,7 @@ import CursoSearch from "../components/CursoSearch.jsx";
 import AuthHandler from "../components/AuthHandler.jsx";
 import CursosLink from "../network/CursosLink";
 import CarritoIcono from "../components/CarritoIcono.jsx";
+import CurrencySelector from "../components/CurrencySelector.jsx";
 ---
 
 <header class="fixed top-0 w-full bg-gradient-to-r from-gray-800 via-black to-gray-900 text-white shadow-lg py-4 z-50">
@@ -13,12 +14,11 @@ import CarritoIcono from "../components/CarritoIcono.jsx";
       <span class="text-2xl font-extrabold">LCPrime</span>
     </a>
 
-    <!-- Links principales (se ocultan en pantallas pequeñas) -->
+    <!-- Links principales -->
     <div class="flex gap-8 text-lg">
       <a href="/catalogo" class="hover:text-amber-400 transition">Catálogo</a>
       <CursosLink client:load />
     </div>
-    
 
     <!-- Iconos y acciones -->
     <div class="flex items-center gap-4 flex-wrap justify-center">
@@ -27,4 +27,9 @@ import CarritoIcono from "../components/CarritoIcono.jsx";
       <CarritoIcono client:load />
     </div>
   </nav>
+
+  <!-- Contenedor para usuario + Selector de Moneda -->
+  <div class="flex flex-col items-center mt-2">
+    <CurrencySelector  client:load/>
+  </div>
 </header>
