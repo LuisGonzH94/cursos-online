@@ -33,8 +33,8 @@ const CursosList = () => {
   // 🔥 **Nuevo efecto: Escucha cambios en la moneda y fuerza un re-render**
   useEffect(() => {
     const handleCurrencyChange = () => {
-      console.log("Moneda cambiada a:", currency); // ✅ Verifica que el cambio se detecta
-      setCursos((prevCursos) => [...prevCursos]); // ✅ Forzar re-render
+      console.log("Moneda cambiada a:", currency); //Verifica que el cambio se detecta
+      setCursos((prevCursos) => [...prevCursos]); //Forzar re-render
     };
 
     window.addEventListener("currencyChange", handleCurrencyChange);

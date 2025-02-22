@@ -1,19 +1,23 @@
 import { useState, useEffect } from "react";
-import { getDatabase, ref, update } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database"; //Se restauró esta importación
+import UseCurrency from "../hook/useCurrency"; //Hook para la moneda actual
+
+const symbolMap = {
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+};
 
 const CarritoDialog = ({ userId, onClose }) => {
   const [carrito, setCarrito] = useState([]);
+  const { currency } = UseCurrency(); //Detectamos la moneda actual
 
   useEffect(() => {
     const storedCarrito = JSON.parse(localStorage.getItem("carrito") || "[]");
     setCarrito(storedCarrito);
   }, []);
 
-  const totalPrecio = carrito.reduce((total, curso) => {
-    const precioNumerico = parseFloat(curso.precio.replace(/[^0-9.]/g, ""));
-    return total + (isNaN(precioNumerico) ? 0 : precioNumerico);
-  }, 0);
-
+  //Función para eliminar un curso del carrito
   const handleEliminarCurso = (slug) => {
     const nuevoCarrito = carrito.filter((curso) => curso.slug !== slug);
     setCarrito(nuevoCarrito);
@@ -21,40 +25,64 @@ const CarritoDialog = ({ userId, onClose }) => {
     window.dispatchEvent(new Event("carritoActualizado"));
   };
 
-  const handleCompra = () => {
+  //Función para comprar cursos y guardarlos en Firebase
+  const handleCompra = async () => {
     if (!userId) {
       alert("Debes iniciar sesión para realizar la compra.");
       return;
     }
 
-    if (Math.floor(Math.random() * 2) === 0) {
-      console.error("Simulación de error en la compra.");
-      alert("Error en la compra. Por favor, intenta de nuevo.");
-      return;
-    }
-
     const db = getDatabase();
-    carrito.forEach((curso) => {
-      const inscripcionRef = ref(db, `usuarios/${userId}/cursos_inscritos/${curso.slug}`);
-      update(inscripcionRef, {
-        fecha_inscripcion: new Date().toISOString().split("T")[0],
-        progreso: "0%",
-        titulo: curso.titulo,
-        descripcion_corta: curso.descripcion_corta || curso.descripcion || "Sin descripción corta",
-        descripcion_detallada: curso.descripcion_detallada || curso.descripcion || "Sin detalles",
-        duracion: curso.duracion,
-        imagen: curso.imagen,
-        precio: curso.precio,
-        videoPath: curso.videoPath || "ruta_por_defecto.mp4",
-      });
-    });
 
-    alert("¡Compra realizada con éxito!");
-    localStorage.removeItem("carrito");
-    setCarrito([]);
-    window.dispatchEvent(new Event("carritoActualizado"));
-    onClose();
+    try {
+      await Promise.all(
+        carrito.map((curso) => {
+          const inscripcionRef = ref(db, `usuarios/${userId}/cursos_inscritos/${curso.slug}`);
+          return update(inscripcionRef, {
+            fecha_inscripcion: new Date().toISOString().split("T")[0],
+            progreso: "0%",
+            titulo: curso.titulo,
+            descripcion_corta: curso.descripcion_corta || "Sin descripción corta",
+            descripcion_detallada: curso.descripcion_detallada || "Sin detalles",
+            duracion: curso.duracion,
+            imagen: curso.imagen,
+            precio: curso.precio, //Guardamos el precio con la moneda actual
+            videoPath: curso.videoPath || "ruta_por_defecto.mp4",
+          });
+        })
+      );
+
+      alert("¡Compra realizada con éxito!");
+
+      //Vaciar el carrito después de la compra
+      localStorage.removeItem("carrito");
+      setCarrito([]);
+
+      //Notificar a "Mis Cursos" para actualizarse
+      window.dispatchEvent(new Event("cursosActualizados"));
+
+      //Cerrar el diálogo automáticamente después de 500ms
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    } catch (error) {
+      console.error("Error al realizar la compra:", error);
+      alert("Hubo un problema al procesar la compra. Inténtalo nuevamente.");
+    }
   };
+
+  //Función para obtener el precio en la moneda actual
+  const obtenerPrecioCurso = (curso) => {
+    if (currency === "EUR" && curso.precioEUR !== undefined) return curso.precioEUR;
+    if (currency === "GBP" && curso.precioGBP !== undefined) return curso.precioGBP;
+    return curso.precioUSD ?? 0; //Fallback a USD si no hay otra moneda
+  };
+
+  //Calcular el total con la moneda actual
+  const totalPrecio = carrito.reduce((total, curso) => {
+    const precio = obtenerPrecioCurso(curso);
+    return total + (isNaN(precio) ? 0 : precio);
+  }, 0);
 
   return (
     <div className="fixed inset-0 bg-black/75 flex items-center justify-center z-50 p-4">
@@ -71,7 +99,9 @@ const CarritoDialog = ({ userId, onClose }) => {
                   <img src={curso.imagen} alt={curso.titulo} className="w-14 h-14 rounded-md object-cover" />
                   <div>
                     <p className="text-gray-900 font-semibold">{curso.titulo}</p>
-                    <p className="text-gray-600">{curso.precio} USD</p>
+                    <p className="text-gray-600">
+                      {symbolMap[currency]}{obtenerPrecioCurso(curso).toFixed(2)}
+                    </p>
                   </div>
                 </div>
 
@@ -84,7 +114,7 @@ const CarritoDialog = ({ userId, onClose }) => {
                     viewBox="0 0 448 512"
                     className="w-5 h-5 fill-current"
                   >
-                    <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/>
+                    <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z" />
                   </svg>
                 </button>
               </div>
@@ -92,7 +122,10 @@ const CarritoDialog = ({ userId, onClose }) => {
           </div>
         )}
 
-        <p className="text-xl font-bold text-gray-900 text-right mt-4">Total: {totalPrecio.toFixed(2)} USD</p>
+        {/*Mostrar el total en la moneda correcta */}
+        <p className="text-xl font-bold text-gray-900 text-right mt-4">
+          Total: {symbolMap[currency]}{totalPrecio.toFixed(2)}
+        </p>
 
         <div className="mt-6 flex flex-col md:flex-row justify-between gap-4">
           <button

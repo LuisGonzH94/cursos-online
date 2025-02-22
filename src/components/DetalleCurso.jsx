@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import CompraDialog from "./CompraDialog";
-import ContenidoCurso from "../curso/ContenidoCurso";
 import IniciarSesionDialog from "./IniciarSesionDialog";
-import { getDatabase, ref, get } from "firebase/database";
+import UseCurrency from "../hook/useCurrency"; // ✅ Hook de moneda
+
+const symbolMap = {
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+};
 
 const DetalleCurso = ({ curso }) => {
+  const { currency } = UseCurrency(); // ✅ Moneda seleccionada
   const [userId, setUserId] = useState("");
-  const [mostrarDialogoCompra, setMostrarDialogoCompra] = useState(false);
   const [mostrarDialogoSesion, setMostrarDialogoSesion] = useState(false);
-  const [yaInscrito, setYaInscrito] = useState(false);
   const [carrito, setCarrito] = useState([]);
-  const [mostrarContenido, setMostrarContenido] = useState(false);
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("currentUserId");
@@ -21,49 +23,61 @@ const DetalleCurso = ({ curso }) => {
     setCarrito(storedCarrito);
   }, []);
 
+  //Ajuste de precios según la moneda
+  const displayedPrice =
+    curso.precio === "Free"
+      ? "Gratis"
+      : currency === "EUR"
+        ? `${symbolMap["EUR"]}${curso.precioEUR ?? "0.00"}`
+        : currency === "GBP"
+          ? `${symbolMap["GBP"]}${curso.precioGBP ?? "0.00"}`
+          : `${symbolMap["USD"]}${curso.precioUSD ?? "0.00"}`;
+
   const handleInscripcion = () => {
     if (!userId) {
       setMostrarDialogoSesion(true);
       return;
     }
 
-    if (curso.precio === "Free") {
-      setMostrarDialogoCompra(true);
-    } else {
-      // agregar el curso de pago al carrito, sin abrir el diálogo de compra
-      const nuevoCarrito = [
-        ...carrito,
-        {
-          slug: curso.slug,
-          titulo: curso.titulo,
-          descripcion_corta: curso.descripcion_corta || curso.descripcion || "Sin descripción corta",
-          descripcion_detallada: curso.descripcion_detallada || curso.descripcion || "Sin detalles",
-          duracion: curso.duracion || "Duración no especificada",
-          imagen: curso.imagen || "/imagenes/default.png",
-          nivel: curso.nivel || "Nivel no especificado",
-          videoPath: curso.videoPath || "",
-          precio: curso.precio || "0 USD",
-        },
-      ];
+    //Obtener carrito actualizado desde localStorage
+    const storedCarrito = JSON.parse(localStorage.getItem("carrito") || "[]");
 
-      setCarrito(nuevoCarrito);
-      localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
-      window.dispatchEvent(new Event("carritoActualizado"));
+    //Comprobar si el curso ya está en el carrito
+    const cursoYaEnCarrito = storedCarrito.some((item) => item.slug === curso.slug);
 
-      // ✅ Mostrar alerta de éxito para cursos de pago
-      alert("¡Curso agregado al carrito!");
+    if (cursoYaEnCarrito) {
+      alert("Este curso ya está en el carrito.");
+      return;
     }
-  };
 
-  // 🔥 Nueva función para actualizar `yaInscrito` al inscribirse
-  const handleCompraExitosa = () => {
-    setYaInscrito(true);
-    setMostrarDialogoCompra(false);
+    //Si el curso NO está en el carrito, lo agregamos
+    const nuevoCarrito = [
+      ...storedCarrito,
+      {
+        slug: curso.slug,
+        titulo: curso.titulo,
+        descripcion_corta: curso.descripcion_corta || "Sin descripción corta",
+        descripcion_detallada: curso.descripcion_detallada || "Sin detalles",
+        duracion: curso.duracion || "No especificado",
+        imagen: curso.imagen || "/imagenes/default.png",
+        nivel: curso.nivel || "No especificado",
+        videoPath: curso.videoPath || "",
+        precioUSD: curso.precioUSD ?? 0,  // Guardamos los tres precios
+        precioEUR: curso.precioEUR ?? 0,
+        precioGBP: curso.precioGBP ?? 0,
+        precio: displayedPrice, //Guardamos el precio en la moneda seleccionada
+      },
+    ];
+
+    setCarrito(nuevoCarrito);
+    localStorage.setItem("carrito", JSON.stringify(nuevoCarrito));
+    window.dispatchEvent(new Event("carritoActualizado"));
+    alert("¡Curso agregado al carrito!");
   };
 
   return (
-    <div className="bg-gradient-to-b from-yellow-100 via-orange-50 to-white min-h-screen px-6 pt-32 md:pt-40 lg:pt-48">
-      <div className="max-w-4xl mx-auto bg-white p-8 shadow-2xl rounded-lg border border-gray-200">
+    <div className="bg-gradient-to-b from-yellow-100 via-orange-50 to-white min-h-screen px-6 pt-32">
+      <div className="max-w-4xl mx-auto bg-white p-8 shadow-2xl rounded-lg border">
         <div className="relative overflow-hidden rounded-lg mb-8">
           <img src={curso.imagen} alt={curso.titulo} className="w-full h-80 object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
@@ -78,50 +92,17 @@ const DetalleCurso = ({ curso }) => {
         </div>
 
         <div className="mt-8 flex flex-col md:flex-row items-center justify-between">
-          <span className="text-3xl font-bold text-red-600">
-            {curso.precio === "Free" ? "Gratis" : `${curso.precio} USD`}
-          </span>
-
-          {yaInscrito ? (
-            <button
-              onClick={() => setMostrarContenido(true)}
-              className="mt-4 md:mt-0 bg-green-500 text-white px-6 py-3 rounded-lg shadow-md"
-            >
-              Ver contenido
-            </button>
-          ) : (
+          <span className="text-3xl font-bold text-red-600">{displayedPrice}</span>
             <button
               onClick={handleInscripcion}
-              className="mt-4 md:mt-0 bg-red-500 text-white px-6 py-3 rounded-lg shadow-md"
+              className="mt-4 md:mt-0 bg-blue-700 text-white px-6 py-3 rounded-lg"
             >
-              {curso.precio === "Free" ? "Inscribirme" : "Agregar al carrito"}
+              Agregar
             </button>
-          )}
         </div>
-
-        {/* Dialogo de Compra */}
-        {mostrarDialogoCompra && (
-          <CompraDialog 
-            curso={curso} 
-            userId={userId} 
-            onClose={() => setMostrarDialogoCompra(false)} 
-            onCompraExitosa={handleCompraExitosa} 
-          />
-        )}
-
         {/* Dialogo de Iniciar Sesión */}
         {mostrarDialogoSesion && (
           <IniciarSesionDialog onClose={() => setMostrarDialogoSesion(false)} />
-        )}
-
-        {/*Ahora se renderiza `ContenidoCurso` cuando se da clic en "Ver contenido" */}
-        {mostrarContenido && (
-          <ContenidoCurso
-            userId={userId}
-            cursoId={curso.slug}
-            videoPath={curso.videoPath}
-            onClose={() => setMostrarContenido(false)}
-          />
         )}
       </div>
     </div>
