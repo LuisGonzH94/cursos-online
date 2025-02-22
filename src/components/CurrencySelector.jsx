@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import UseCurrency from "../hook/useCurrency";
+import UseCurrency from "../hook/UseCurrency";
 
 const CurrencySelector = () => {
   const { currency, changeCurrency } = UseCurrency();

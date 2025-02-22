@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import IniciarSesionDialog from "./IniciarSesionDialog";
-import UseCurrency from "../hook/useCurrency"; // ✅ Hook de moneda
+import UseCurrency from "../hook/UseCurrency"; // ✅ Hook de moneda
 
 const symbolMap = {
   USD: "$",
