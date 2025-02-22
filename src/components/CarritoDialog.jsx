@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getDatabase, ref, update } from "firebase/database"; //Se restauró esta importación
+import { getDatabase, ref, update } from "firebase/database";
 import UseCurrency from "../hook/useCurrency"; //Hook para la moneda actual
 
 const symbolMap = {
